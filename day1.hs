@@ -17,21 +17,14 @@ solve :: [Int] -> Int
 solve [] = 0
 solve (x:xs) = sumIncs 0 x xs
 
-solve2S3 :: Int -> Int -> Int -> Int -> [Int] -> Int 
-solve2S3 s _ _ _ [] = s
-solve2S3 s p1 p2 p3 (x:xs) = solve2S3 (s + inc (p1 + p2 + p3) (p2 + p3 + x)) p2 p3 x xs
+calcInc :: Int-> [Int] -> Int
+calcInc x xs = if length xs == 3 then
+  inc ( x + sum (take 2 xs)) (sum xs)
+  else 0
 
-solve2S2 :: Int -> Int -> Int -> [Int] -> Int 
-solve2S2 s _ _ [] = s
-solve2S2 s p1 p2 (x:xs) = solve2S3 s p1 p2 x xs
-
-solve2S1 :: Int -> Int -> [Int] -> Int 
-solve2S1 s _ [] = s
-solve2S1 s p (x:xs) = solve2S2 s p x xs
-
-solve2 :: [Int] -> Int
-solve2 [] = 0
-solve2 (x:xs) = solve2S1 0 x xs
+solve2 :: Int -> [Int] -> Int
+solve2 s [] = s
+solve2 s (x:xs) = solve2 (s + calcInc x (take 3 xs)) xs
 
 main :: IO ()
 main = do  
@@ -41,7 +34,7 @@ main = do
         let singlewords = words contents
             list = f singlewords
         print (solve list)
-        print (solve2 list)
+        print (solve2 0 list)
         hClose handle   
 
 f :: [String] -> [Int]
