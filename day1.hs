@@ -1,10 +1,5 @@
 import System.IO
     ( IOMode(ReadMode), hClose, hGetContents, openFile )  
-import Control.Monad ()
-
-solveForHead :: Int -> [Int] -> Int
-solveForHead target [] = 0
-solveForHead target (x:xs) = head ([x * n | n <- xs, x  + n == target] ++ [0])
 
 inc :: Int -> Int -> Int
 inc a b = if a < b then 1 else 0
