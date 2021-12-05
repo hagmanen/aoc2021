@@ -30,7 +30,6 @@ solve2 a x y (i:is)
 
 main :: IO ()
 main = do  
-        let list = []
         handle <- openFile "input2.txt" ReadMode
         contents <- hGetContents handle
         let instructions = [parseInstruction l | l <- lines contents]

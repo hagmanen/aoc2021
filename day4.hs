@@ -77,7 +77,6 @@ solve2 (n:ns) bs = solve2 ns [b | b <- [mark n b | b <- bs], not (bingo b)]
 
 main :: IO ()
 main = do  
-        let list = []
         handle <- openFile "input4.txt" ReadMode
         contents <- hGetContents handle
         let inst = parse (splitOn "\n\n" contents)

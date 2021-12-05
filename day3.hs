@@ -65,7 +65,6 @@ solve2 s = most 0 s * least 0 s
 
 main :: IO ()
 main = do  
-        let list = []
         handle <- openFile "input3.txt" ReadMode
         contents <- hGetContents handle
         let instructions = [parseLine l | l <- lines contents]
