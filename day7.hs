@@ -26,8 +26,5 @@ main = do
         print (solve2 nrs)
         hClose handle   
 
-f :: [String] -> [Int]
-f = map read
-
 -- 340052
 -- 92948968
