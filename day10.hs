@@ -57,9 +57,6 @@ compCost (c:cs) co = compCost cs ((5*co) + compChar c)
 solve2 :: [String] -> Int
 solve2 rows = head (middle (sort [r | r <- [compCost (incomplete row "") 0| row <- rows], r /= 0]))
 
-solve3 :: [String] -> [Int]
-solve3 rows = [compCost (incomplete row "") 0| row <- rows]
-
 main :: IO ()
 main = do  
         handle <- openFile "input10.txt" ReadMode
@@ -67,3 +64,6 @@ main = do
         print (solve (lines contents))
         print (solve2 (lines contents))
         hClose handle   
+
+-- 392043
+-- 1605968119

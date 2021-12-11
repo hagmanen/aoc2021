@@ -46,7 +46,7 @@ clearAt :: Int -> [Int] -> [Int]
 clearAt x = setAt x 0
 
 mergeAndInc :: Int -> Int -> [Int] -> [Int]
-mergeAndInc a b list = setAt b ((list !! a) + (list !! b) + 1) (clearAt a list)
+mergeAndInc a b list = modifyAt b (+ ((list !! a) + 1)) (clearAt a list)
 
 fillRow :: [Int] -> Int -> [Bool] -> ([Int],[Int]) -> ([Int],[Int])
 fillRow [] _ _ above = above
