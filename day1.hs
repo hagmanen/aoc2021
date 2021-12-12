@@ -1,39 +1,26 @@
 import System.IO
-    ( IOMode(ReadMode), hClose, hGetContents, openFile )  
+    ( IOMode(ReadMode), hClose, hGetContents, openFile )
 
-inc :: Int -> Int -> Int
-inc a b = if a < b then 1 else 0
+solve :: [Int] -> ([Int], Int) -> Int
+solve [] s = snd s
+solve (x:xs) (p, c)
+  | inc = solve xs (p', c + 1)
+  | otherwise = solve xs (p', c)
+  where p' = x : init p
+        inc = sum p' > sum p
 
-sumIncs :: Int -> Int -> [Int] -> Int 
-sumIncs s _ [] = s
-sumIncs s p (x:xs) = sumIncs (s + inc p x) x xs
-
-solve :: [Int] -> Int
-solve [] = 0
-solve (x:xs) = sumIncs 0 x xs
-
-calcInc :: Int-> [Int] -> Int
-calcInc x xs = if length xs == 3 then
-  inc ( x + sum (take 2 xs)) (sum xs)
-  else 0
-
-solve2 :: Int -> [Int] -> Int
-solve2 s [] = s
-solve2 s (x:xs) = solve2 (s + calcInc x (take 3 xs)) xs
+initialState :: [Int] -> Int -> ([Int], Int)
+initialState [] _ = ([], 0)
+initialState (x:xs) n = (replicate n (n*x), 0)
 
 main :: IO ()
-main = do  
-        let list = []
+main = do
         handle <- openFile "input1.txt" ReadMode
         contents <- hGetContents handle
-        let singlewords = words contents
-            list = f singlewords
-        print (solve list)
-        print (solve2 0 list)
-        hClose handle   
-
-f :: [String] -> [Int]
-f = map read
+        let list = map read (lines contents)
+        print (solve list (initialState list 1))
+        print (solve list (initialState list 3))
+        hClose handle
 
 -- 1616
 -- 1645

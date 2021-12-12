@@ -4,6 +4,7 @@ import qualified Data.HashMap.Strict as HashMap
 import Data.List.Split (splitOn)
 import qualified Data.Set as Set
 import Data.Char(isLower)
+import Data.Bifunctor (first)
 
 rms :: [String] -> [String]
 rms ss = [s | s <- ss, s /= "start"]
@@ -27,7 +28,7 @@ ll (Just l) = l
 insertLower :: String -> (Set.Set String, Int) -> (Set.Set String, Int)
 insertLower s ss
   | Set.member s (fst ss) = (fst ss, snd ss - 1)
-  | isLower (head s) = (Set.insert s (fst ss), snd ss)
+  | isLower (head s) = first (Set.insert s) ss
   | otherwise = ss
 
 findPaths :: String -> HashMap.HashMap String [String] -> (Set.Set String, Int) -> Int
