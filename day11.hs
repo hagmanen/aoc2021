@@ -3,7 +3,6 @@ import System.IO
 import Data.List.Index (setAt, modifyAt)
 import Data.List(findIndex)
 import Data.Maybe(isNothing)
-import Data.List.Split(chunksOf)
 
 string2Ints :: String -> [Int]
 string2Ints = map (\x -> read [x] :: Int)
