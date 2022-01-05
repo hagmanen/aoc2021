@@ -71,8 +71,6 @@ main = do
         contents <- hGetContents handle
         let (max, cucumbers) = parseBoard (lines contents) (0,0) noCucumbers
         print (solve cucumbers max 1)
---        print (solve list (initialState list 3))
         hClose handle
 
--- 
--- 
+-- 378
