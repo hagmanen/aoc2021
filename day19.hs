@@ -1,11 +1,15 @@
 import System.IO
     ( IOMode(ReadMode), hClose, hGetContents, openFile )
-import Data.List (sort, nub)
+import Data.List (sort, nub, sortBy)
 import Data.List.Split (splitOn)
 import Debug.Trace (trace)
 
 type Coord = (Int,Int,Int)
 type Scanner = (Coord, [Coord])
+
+-- Next scanner as far away from the just done scanner
+distcmp :: Coord -> Scanner -> Scanner -> Ordering
+distcmp orig (c1,_) (c2,_) = compare (dist orig c2) (dist orig c1)
 
 solve :: [[Coord]] -> [Scanner] -> [Scanner] -> [Scanner]
 solve unmatched matched done | trace ("Unmatched scanners: " ++ show (length unmatched) ++
@@ -13,7 +17,7 @@ solve unmatched matched done | trace ("Unmatched scanners: " ++ show (length unm
                                       ", Done scanners: " ++ show (length done)) False = undefined
 solve [] matched done = matched ++ done
 solve _ [] _ = error "Empty list of matched scanners"
-solve unmatched (ref:refs) done = solve unmatched' matched' (ref:done)
+solve unmatched (ref:refs) done = solve unmatched' (sortBy (distcmp (fst ref)) matched') (ref:done)
   where (matched', unmatched') = matchWithScanner ref unmatched refs []
 
 matchWithScanner :: Scanner -> [[Coord]] -> [Scanner] -> [[Coord]] -> ([Scanner], [[Coord]])
@@ -52,7 +56,7 @@ add (x1,y1,z1) (x2,y2,z2) = (x1+x2, y1+y2, z1+z2)
 
 allOffsets :: [Coord] -> [Coord] -> [(Coord, [Coord])]
 allOffsets ref scanner = map (\o -> (o, map (add o) scanner)) offsets
-  where offsets = nub [sub m b| m <- ref, b <- scanner]
+  where offsets = [sub m b| m <- ref, b <- scanner]
 
 allRotations :: [Coord] -> [[Coord]]
 allRotations scanner = map (\f -> sort $ map f scanner) cubeRotations
